@@ -1,0 +1,22 @@
+.folder-title-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.emoji-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.emoji-button.active {
+  background-color: var(--color-background-selected);
+}
+
+.FolderTitleInput {
+  position: absolute;
+}

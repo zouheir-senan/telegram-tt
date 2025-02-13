@@ -18,6 +18,7 @@ import './TabList.scss';
 export type TabWithProperties = {
   id?: number;
   title: TeactNode;
+  emoticon?:string;
   badgeCount?: number;
   isBlocked?: boolean;
   isBadgeActive?: boolean;
@@ -93,6 +94,7 @@ const TabList: FC<OwnProps> = ({
           contextActions={tab.contextActions}
           contextRootElementSelector={contextRootElementSelector}
           className={tabClassName}
+          emoticon={tab.emoticon}
         />
       ))}
     </div>

@@ -144,7 +144,8 @@ const ChatFolders: FC<OwnProps & StateProps> = ({
     }
 
     return displayedFolders.map((folder, i) => {
-      const { id, title } = folder;
+      const { id, title, emoticon} = folder;
+      console.log('folder info',folder);
       const isBlocked = id !== ALL_FOLDER_ID && i > maxFolders - 1;
       const canShareFolder = selectCanShareFolder(getGlobal(), id);
       const contextActions: MenuItemContextAction[] = [];
@@ -203,6 +204,7 @@ const ChatFolders: FC<OwnProps & StateProps> = ({
           entities: title.entities,
           noCustomEmojiPlayback: folder.noTitleAnimations,
         }),
+        emoticon,
         badgeCount: folderCountersById[id]?.chatsCount,
         isBadgeActive: Boolean(folderCountersById[id]?.notificationsCount),
         isBlocked,

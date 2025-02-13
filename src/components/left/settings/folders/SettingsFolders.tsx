@@ -75,7 +75,8 @@ const SettingsFolders: FC<OwnProps> = ({
   const isCreating = state.mode === 'create';
 
   const saveState = useCallback((newState: FoldersState) => {
-    const { title } = newState.folder;
+    const { title, emoticon} = newState.folder;
+    console.log(newState.folder);
 
     if (!title) {
       dispatch({ type: 'setError', payload: ERROR_NO_TITLE });

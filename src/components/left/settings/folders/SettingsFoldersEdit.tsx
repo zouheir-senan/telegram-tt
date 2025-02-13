@@ -10,16 +10,18 @@ import type {
   FoldersState,
 } from '../../../../hooks/reducers/useFoldersReducer';
 
-import { STICKER_SIZE_FOLDER_SETTINGS } from '../../../../config';
+import {EDITABLE_INPUT_MODAL_CSS_SELECTOR, STICKER_SIZE_FOLDER_SETTINGS} from '../../../../config';
 import { isUserId } from '../../../../global/helpers';
 import { selectCanShareFolder } from '../../../../global/selectors';
 import { selectCurrentLimit } from '../../../../global/selectors/limits';
+import buildClassName from '../../../../util/buildClassName';
 import { findIntersectionWithSet } from '../../../../util/iteratees';
 import { MEMO_EMPTY_ARRAY } from '../../../../util/memo';
 import { CUSTOM_PEER_EXCLUDED_CHAT_TYPES, CUSTOM_PEER_INCLUDED_CHAT_TYPES } from '../../../../util/objects/customPeer';
 import { LOCAL_TGS_URLS } from '../../../common/helpers/animatedAssets';
 
 import { selectChatFilters } from '../../../../hooks/reducers/useFoldersReducer';
+import useFlag from '../../../../hooks/useFlag';
 import useHistoryBack from '../../../../hooks/useHistoryBack';
 import useOldLang from '../../../../hooks/useOldLang';
 
@@ -28,9 +30,11 @@ import GroupChatInfo from '../../../common/GroupChatInfo';
 import Icon from '../../../common/icons/Icon';
 import PrivateChatInfo from '../../../common/PrivateChatInfo';
 import FloatingActionButton from '../../../ui/FloatingActionButton';
-import InputText from '../../../ui/InputText';
 import ListItem from '../../../ui/ListItem';
 import Spinner from '../../../ui/Spinner';
+import FolderTitleInput from './FolderTitleInput';
+import useLastCallback from "../../../../hooks/useLastCallback";
+import renderText from "../../../common/helpers/renderText";
 
 type OwnProps = {
   state: FoldersState;
@@ -94,7 +98,7 @@ const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
 
   const [isIncludedChatsListExpanded, setIsIncludedChatsListExpanded] = useState(false);
   const [isExcludedChatsListExpanded, setIsExcludedChatsListExpanded] = useState(false);
-
+  const [emoji,setEmoji] = useState<string>('');
   useEffect(() => {
     if (isRemoved) {
       onReset();
@@ -150,7 +154,11 @@ const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
     isActive,
     onBack,
   });
-
+  const onEmojiSelect = useLastCallback((emoji: string) => {
+    console.log('test emoji', emoji);
+    setEmoji(emoji);
+    dispatch({ type: 'setEmoticon', payload: emoji });
+  });
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const { currentTarget } = event;
     dispatch({ type: 'setTitle', payload: currentTarget.value.trim() });
@@ -295,16 +303,14 @@ const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
               {lang('FilterIncludeInfo')}
             </p>
           )}
-
-          <InputText
-            className="mb-0"
-            label={lang('FilterNameHint')}
+          <FolderTitleInput
             value={state.folder.title.text}
             onChange={handleChange}
+            onEmojiSelect={onEmojiSelect}
             error={state.error && state.error === ERROR_NO_TITLE ? ERROR_NO_TITLE : undefined}
+            lang={lang}
           />
         </div>
-
         {!isOnlyInvites && (
           <div className="settings-item pt-3">
             {state.error && state.error === ERROR_NO_CHATS && (

@@ -14,6 +14,7 @@ import useMediaTransitionDeprecated from '../../../hooks/useMediaTransitionDepre
 import useOldLang from '../../../hooks/useOldLang';
 
 import EmojiButton from './EmojiButton';
+import IconSelector from "../../left/settings/folders/IconSelector";
 
 const EMOJIS_PER_ROW_ON_DESKTOP = 8;
 const EMOJI_MARGIN = 0.625 * REM;

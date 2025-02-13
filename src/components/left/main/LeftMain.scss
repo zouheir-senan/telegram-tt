@@ -43,6 +43,10 @@
 
     .Tab {
       flex: 0 0 auto;
+
+      .emoji {
+        display: none;
+      }
     }
 
     > .Transition {
@@ -66,5 +70,109 @@
     transform: translateX(-50%);
 
     white-space: nowrap;
+  }
+}
+
+
+
+@media(min-width: 26rem)
+{
+  #LeftColumn-main {
+    position: relative;
+    .ChatFolders {
+      flex-direction: row;
+
+      .TabList {
+        background-color:rgba(33,33,33,255) ;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+        padding-left: 1rem;
+        padding-right: 11px;
+      }
+
+      .Tab {
+        padding: 0;
+        margin-bottom: 1rem;
+        color: rgba(113, 117, 121, 255);;
+        &_inner{
+          display: block;
+          position: relative;
+        }
+        &__badge{
+          position: absolute;
+          top:0;
+          right:0;
+        }
+        &_content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        &--active {
+          color: rgba(91,153,238,255);
+        }
+
+        &_icon {
+          display: inline-block;
+          object-fit: cover;
+          width: 36px;
+          height: 36px;
+          background-color: currentColor;
+          mask-image: url("../../../../public/folder.svg");
+        }
+        .emoji {
+          display: inline-block;
+          font-size: 30px;
+          line-height: 1;
+          background-color: transparent;
+        }
+        .icon-chats {
+          mask-image: url("../../../../public/chats.svg");
+        }
+        .icon-bot {
+          mask-image: url("../../../../public/bot.svg");
+        }
+        .icon-channel {
+          mask-image: url("../../../../public/channel.svg");
+        }
+        .icon-chat {
+          mask-image: url("../../../../public/chat.svg");
+        }
+        .icon-folder {
+          mask-image: url("../../../../public/folder.svg");
+        }
+        .icon-group {
+          mask-image: url("../../../../public/group.svg");
+        }
+        .icon-star {
+          mask-image: url("../../../../public/star.svg");
+        }
+        .icon-user {
+          mask-image: url("../../../../public/user.svg");
+        }
+
+        font-size: .7rem;
+
+        .platform {
+          display: none;
+        }
+
+        .badge {
+          position: absolute;
+          top:0;
+          right:0;
+
+          font-size: .6rem;
+          min-width: 1rem;
+          height: 1rem;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+
   }
 }

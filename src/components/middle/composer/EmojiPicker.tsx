@@ -37,10 +37,12 @@ import Loading from '../../ui/Loading';
 import EmojiCategory from './EmojiCategory';
 
 import './EmojiPicker.scss';
+import IconSelector from "../../left/settings/folders/IconSelector";
 
 type OwnProps = {
   className?: string;
   onEmojiSelect: (emoji: string, name: string) => void;
+  isFolderPicker?:boolean;
 };
 
 type StateProps = Pick<GlobalState, 'recentEmojis'>;
@@ -75,6 +77,7 @@ const EmojiPicker: FC<OwnProps & StateProps> = ({
   className,
   recentEmojis,
   onEmojiSelect,
+  isFolderPicker
 }) => {
   // eslint-disable-next-line no-null/no-null
   const containerRef = useRef<HTMLDivElement>(null);
@@ -224,6 +227,7 @@ const EmojiPicker: FC<OwnProps & StateProps> = ({
 
   return (
     <div className={containerClassName}>
+
       <div
         ref={headerRef}
         className={headerClassName}
@@ -231,6 +235,7 @@ const EmojiPicker: FC<OwnProps & StateProps> = ({
       >
         {allCategories.map(renderCategoryButton)}
       </div>
+      {isFolderPicker && <IconSelector onEmojiSelect={handleEmojiSelect}/>}
       <div
         ref={containerRef}
         onScroll={handleContentScroll}

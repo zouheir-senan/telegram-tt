@@ -1,0 +1,17 @@
+.IconSelector{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+}
+.folderIcons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill : white;
+  gap: .5rem;
+  path {
+    fill: var(--color-text-secondary);
+  }
+}
+

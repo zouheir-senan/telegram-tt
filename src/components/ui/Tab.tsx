@@ -14,6 +14,7 @@ import { useFastClick } from '../../hooks/useFastClick';
 import useLastCallback from '../../hooks/useLastCallback';
 
 import Icon from '../common/icons/Icon';
+import { isSvgIcon } from '../left/settings/folders/IconSelector';
 import Menu from './Menu';
 import MenuItem from './MenuItem';
 import MenuSeparator from './MenuSeparator';
@@ -23,6 +24,7 @@ import './Tab.scss';
 type OwnProps = {
   className?: string;
   title: TeactNode;
+  emoticon?:string;
   isActive?: boolean;
   isBlocked?: boolean;
   badgeCount?: number;
@@ -51,6 +53,7 @@ const Tab: FC<OwnProps> = ({
   clickArg,
   contextActions,
   contextRootElementSelector,
+  emoticon,
 }) => {
   // eslint-disable-next-line no-null/no-null
   const tabRef = useRef<HTMLDivElement>(null);
@@ -131,6 +134,7 @@ const Tab: FC<OwnProps> = ({
   );
   const getLayout = useLastCallback(() => ({ withPortal: true }));
 
+  // @ts-ignore
   return (
     <div
       className={buildClassName('Tab', onClick && 'Tab--interactive', className)}
@@ -140,14 +144,29 @@ const Tab: FC<OwnProps> = ({
       ref={tabRef}
     >
       <span className="Tab_inner">
-        {typeof title === 'string' ? renderText(title) : title}
+        <span className="Tab_content"> {/* Container for text OR icon */}
+
+          <div
+            className={`Tab_icon ${
+              (title[0] === 'All' ? 'icon-chats' : isSvgIcon(emoticon)
+                ? `icon-${isSvgIcon(emoticon)}`
+                : emoticon
+                  ? 'emoji'
+                  : 'folder')
+            }`}
+          >
+            {/* eslint-disable-next-line no-null/no-null */}
+            {isSvgIcon(emoticon) === null && emoticon}
+          </div>
+
+          <span className="Tab_text">{renderText(title)}</span>
+        </span>
         {Boolean(badgeCount) && (
           <span className={buildClassName('badge', isBadgeActive && classNames.badgeActive)}>{badgeCount}</span>
         )}
         {isBlocked && <Icon name="lock-badge" className="blocked" />}
         <i className="platform" />
       </span>
-
       {contextActions && contextMenuAnchor !== undefined && (
         <Menu
           isOpen={isContextMenuOpen}
