@@ -2,8 +2,9 @@ import type { ApiFormattedText, ApiMessageEntity } from '../api/types';
 import { ApiMessageEntityTypes } from '../api/types';
 
 import { RE_LINK_TEMPLATE } from '../config';
-import { IS_EMOJI_SUPPORTED } from './windowEnvironment';
-
+import { generateHTML, parse, tokenize } from './parser';
+import {IS_EMOJI_SUPPORTED} from "./windowEnvironment";
+// todo AST
 export const ENTITY_CLASS_BY_NODE_NAME: Record<string, ApiMessageEntityTypes> = {
   B: ApiMessageEntityTypes.Bold,
   STRONG: ApiMessageEntityTypes.Bold,
@@ -76,7 +77,8 @@ export function fixImageContent(fragment: HTMLDivElement) {
   });
 }
 
-function parseMarkdown(html: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function parseMarkdown1(html: string) {
   let parsedHtml = html.slice(0);
 
   // Strip redundant nbsp's
@@ -132,6 +134,11 @@ function parseMarkdown(html: string) {
   );
 
   return parsedHtml;
+}
+export function parseMarkdown(html: string) {
+  const tokens = tokenize(html);
+  const ast = parse(tokens);
+  return generateHTML(ast);
 }
 
 function parseMarkdownLinks(html: string) {
