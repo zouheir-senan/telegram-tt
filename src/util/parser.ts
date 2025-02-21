@@ -671,7 +671,7 @@ export function generateHTML(ast: ASTNode): string {
     case ASTNodeType.paragraph: {
       const content = ast.children
         .map(generateHTML)
-        .filter(html => html.trim() !== '')
+        .filter(html => html==="\n" || html.trim() !== '')
         .join("");
 
       return content.trim() ? `${content}` : '';

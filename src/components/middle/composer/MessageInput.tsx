@@ -37,6 +37,7 @@ import Icon from '../../common/icons/Icon';
 import Button from '../../ui/Button';
 import TextTimer from '../../ui/TextTimer';
 import TextFormatter from './TextFormatter.async';
+import MessageEditor from "../../ui/MessageEditor";
 
 const CONTEXT_MENU_CLOSE_DELAY_MS = 100;
 // Focus slows down animation, also it breaks transition layout in Chrome
@@ -570,16 +571,15 @@ const MessageInput: FC<OwnProps & StateProps> = ({
         onClick={!isAttachmentModalInput && !canSendPlainText ? handleClick : undefined}
       >
         <div className={inputScrollerContentClass}>
-          <div
+          <MessageEditor
+            html={getHtml()}
             ref={inputRef}
             id={editableInputId || EDITABLE_INPUT_ID}
             className={className}
             contentEditable={isAttachmentModalInput || canSendPlainText}
-            role="textbox"
-            dir="auto"
             tabIndex={0}
             onClick={focusInput}
-            onChange={handleChange}
+            onUpdate={onUpdate}
             onKeyDown={handleKeyDown}
             onMouseDown={handleMouseDown}
             onContextMenu={IS_ANDROID ? handleAndroidContextMenu : undefined}
