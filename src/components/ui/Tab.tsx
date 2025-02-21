@@ -33,7 +33,7 @@ type OwnProps = {
   onClick?: (arg: number) => void;
   clickArg?: number;
   contextActions?: MenuItemContextAction[];
-  contextRootElementSelector?: string;
+  contextRootElementSelector?: string; isFolderTap?: boolean;
 };
 
 const classNames = {
@@ -54,6 +54,7 @@ const Tab: FC<OwnProps> = ({
   contextActions,
   contextRootElementSelector,
   emoticon,
+  isFolderTap = false,
 }) => {
   // eslint-disable-next-line no-null/no-null
   const tabRef = useRef<HTMLDivElement>(null);
@@ -133,7 +134,6 @@ const Tab: FC<OwnProps> = ({
     () => document.querySelector('#portals')!.querySelector('.Tab-context-menu .bubble'),
   );
   const getLayout = useLastCallback(() => ({ withPortal: true }));
-
   // @ts-ignore
   return (
     <div
@@ -146,19 +146,20 @@ const Tab: FC<OwnProps> = ({
       <span className="Tab_inner">
         <span className="Tab_content"> {/* Container for text OR icon */}
 
-          <div
-            className={`Tab_icon ${
-              (title[0] === 'All' ? 'icon-chats' : isSvgIcon(emoticon)
-                ? `icon-${isSvgIcon(emoticon)}`
-                : emoticon
-                  ? 'emoji'
-                  : 'folder')
-            }`}
-          >
-            {/* eslint-disable-next-line no-null/no-null */}
-            {isSvgIcon(emoticon) === null && emoticon}
-          </div>
-
+          { isFolderTap && (
+            <div
+              className={`Tab_icon ${
+                (title[0] === 'All' ? 'icon-chats' : isSvgIcon(emoticon)
+                  ? `icon-${isSvgIcon(emoticon)}`
+                  : emoticon
+                    ? 'emoji'
+                    : 'folder')
+              }`}
+            >
+              {/* eslint-disable-next-line no-null/no-null */}
+              {isSvgIcon(emoticon) === null && emoticon}
+            </div>
+          )}
           <span className="Tab_text">{renderText(title)}</span>
         </span>
         {Boolean(badgeCount) && (

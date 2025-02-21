@@ -342,6 +342,7 @@ const ChatFolders: FC<OwnProps & StateProps> = ({
           tabs={folderTabs}
           activeTab={activeChatFolder}
           onSwitchTab={handleSwitchTab}
+          isFolderTap
         />
       ) : shouldRenderPlaceholder ? (
         <div ref={placeholderRef} className="tabs-placeholder" />

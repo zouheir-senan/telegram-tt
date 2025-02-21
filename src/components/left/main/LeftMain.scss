@@ -84,17 +84,16 @@
 
       .TabList {
         background-color:rgba(33,33,33,255) ;
+        width: 80px;
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: center;
         justify-content: start;
-        padding-left: 1rem;
-        padding-right: 11px;
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .Tab {
-        padding: 0;
-        margin-bottom: 1rem;
         color: rgba(113, 117, 121, 255);;
         &_inner{
           display: block;

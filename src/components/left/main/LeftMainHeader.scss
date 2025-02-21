@@ -154,15 +154,21 @@
   }
 }
 
-@media(min-width: 26rem){
+@media (min-width: 26rem){
   #LeftMainHeader {
       padding-left: 0;
 
 
-    & > :first-child {
+    & > :first-child.DropdownMenu.main-menu {
       margin: 0;
       padding: 1rem;
+      width: 80px !important;
       background: rgba(33, 33, 33, 255);
+      min-width: 80px !important;
+      max-width: 80px !important;
+      &:active{
+        background: transparent;
+      }
     }
   }
 

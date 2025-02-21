@@ -32,6 +32,7 @@ type OwnProps = {
   tabClassName?: string;
   onSwitchTab: (index: number) => void;
   contextRootElementSelector?: string;
+  isFolderTap?: boolean;
 };
 
 const TAB_SCROLL_THRESHOLD_PX = 16;
@@ -40,7 +41,7 @@ const SCROLL_DURATION = IS_IOS ? 450 : IS_ANDROID ? 400 : 300;
 
 const TabList: FC<OwnProps> = ({
   tabs, activeTab, onSwitchTab,
-  contextRootElementSelector, className, tabClassName,
+  contextRootElementSelector, className, tabClassName, isFolderTap = false,
 }) => {
   // eslint-disable-next-line no-null/no-null
   const containerRef = useRef<HTMLDivElement>(null);
@@ -95,6 +96,7 @@ const TabList: FC<OwnProps> = ({
           contextRootElementSelector={contextRootElementSelector}
           className={tabClassName}
           emoticon={tab.emoticon}
+          isFolderTap={isFolderTap}
         />
       ))}
     </div>
