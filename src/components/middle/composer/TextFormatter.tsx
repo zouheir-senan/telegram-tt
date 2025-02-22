@@ -130,12 +130,6 @@ const TextFormatter: FC<OwnProps> = ({
     }
   });
 
-  const updateSelectedRange = useLastCallback(() => {
-    const selection = window.getSelection();
-    if (selection) {
-      setSelectedRange(selection.getRangeAt(0));
-    }
-  });
 
   const getSelectedText = useLastCallback((shouldDropCustomEmoji?: boolean) => {
     if (!selectedRange) {
@@ -233,39 +227,81 @@ const TextFormatter: FC<OwnProps> = ({
   });
 
   const handleBoldText = useLastCallback(() => {
-    setSelectedTextFormats((selectedFormats) => {
-      // Somehow re-applying 'bold' command to already bold text doesn't work
-      document.execCommand(selectedFormats.bold ? 'removeFormat' : 'bold');
-      Object.keys(selectedFormats).forEach((key) => {
-        if ((key === 'italic' || key === 'underline') && Boolean(selectedFormats[key])) {
-          document.execCommand(key);
-        }
-      });
+    if (selectedTextFormats.bold) {
+      const element = getSelectedElement();
+      if (
+        !selectedRange
+        || !element
+        || element.tagName !== 'B'
+        || !element.textContent
+      ) {
+        return;
+      }
 
-      updateSelectedRange();
-      return {
+      element.replaceWith(element.textContent);
+      setSelectedTextFormats((selectedFormats) => ({
         ...selectedFormats,
-        bold: !selectedFormats.bold,
-      };
-    });
+        bold: false,
+      }));
+
+      return;
+    }
+
+    const text = getSelectedText();
+    document.execCommand('insertHTML', false, `<b>${text}</b>`);
+    onClose();
   });
 
   const handleItalicText = useLastCallback(() => {
-    document.execCommand('italic');
-    updateSelectedRange();
-    setSelectedTextFormats((selectedFormats) => ({
-      ...selectedFormats,
-      italic: !selectedFormats.italic,
-    }));
+    if (selectedTextFormats.italic) {
+      const element = getSelectedElement();
+      if (
+        !selectedRange
+        || !element
+        || element.tagName !== 'I'
+        || !element.textContent
+      ) {
+        return;
+      }
+
+      element.replaceWith(element.textContent);
+      setSelectedTextFormats((selectedFormats) => ({
+        ...selectedFormats,
+        italic: false,
+      }));
+
+      return;
+    }
+
+    const text = getSelectedText();
+    document.execCommand('insertHTML', false, `<i>${text}</i>`);
+    onClose();
   });
 
   const handleUnderlineText = useLastCallback(() => {
-    document.execCommand('underline');
-    updateSelectedRange();
-    setSelectedTextFormats((selectedFormats) => ({
-      ...selectedFormats,
-      underline: !selectedFormats.underline,
-    }));
+    if (selectedTextFormats.underline) {
+      const element = getSelectedElement();
+      if (
+        !selectedRange
+        || !element
+        || element.tagName !== 'U'
+        || !element.textContent
+      ) {
+        return;
+      }
+
+      element.replaceWith(element.textContent);
+      setSelectedTextFormats((selectedFormats) => ({
+        ...selectedFormats,
+        underline: false,
+      }));
+
+      return;
+    }
+
+    const text = getSelectedText();
+    document.execCommand('insertHTML', false, `<u>${text}</u>`);
+    onClose();
   });
 
   const handleStrikethroughText = useLastCallback(() => {

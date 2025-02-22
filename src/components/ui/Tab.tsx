@@ -1,20 +1,20 @@
-import type { FC, TeactNode } from '../../lib/teact/teact';
-import React, { useEffect, useLayoutEffect, useRef } from '../../lib/teact/teact';
+import type {FC, TeactNode} from '../../lib/teact/teact';
+import React, {useEffect, useLayoutEffect, useRef} from '../../lib/teact/teact';
 
-import type { MenuItemContextAction } from './ListItem';
+import type {MenuItemContextAction} from './ListItem';
 
-import { requestForcedReflow, requestMutation } from '../../lib/fasterdom/fasterdom';
+import {requestForcedReflow, requestMutation} from '../../lib/fasterdom/fasterdom';
 import buildClassName from '../../util/buildClassName';
 import forceReflow from '../../util/forceReflow';
-import { MouseButton } from '../../util/windowEnvironment';
+import {MouseButton} from '../../util/windowEnvironment';
 import renderText from '../common/helpers/renderText';
 
 import useContextMenuHandlers from '../../hooks/useContextMenuHandlers';
-import { useFastClick } from '../../hooks/useFastClick';
+import {useFastClick} from '../../hooks/useFastClick';
 import useLastCallback from '../../hooks/useLastCallback';
 
 import Icon from '../common/icons/Icon';
-import { isSvgIcon } from '../left/settings/folders/IconSelector';
+import {isSvgIcon} from '../left/settings/folders/IconSelector';
 import Menu from './Menu';
 import MenuItem from './MenuItem';
 import MenuSeparator from './MenuSeparator';
@@ -135,6 +135,7 @@ const Tab: FC<OwnProps> = ({
   );
   const getLayout = useLastCallback(() => ({ withPortal: true }));
   // @ts-ignore
+  const [first] = title;
   return (
     <div
       className={buildClassName('Tab', onClick && 'Tab--interactive', className)}
@@ -149,7 +150,7 @@ const Tab: FC<OwnProps> = ({
           { isFolderTap && (
             <div
               className={`Tab_icon ${
-                (title[0] === 'All' ? 'icon-chats' : isSvgIcon(emoticon)
+                (first === 'All' ? 'icon-chats' : isSvgIcon(emoticon)
                   ? `icon-${isSvgIcon(emoticon)}`
                   : emoticon
                     ? 'emoji'
