@@ -153,7 +153,7 @@ export function tokenize(input: string): Token[] {
       }
     } else if (input.startsWith('`', pos)) { // Inline code marker (`)
       const endPos = findMatchingDelimiter(input, '`', pos + 1);
-      if (endPos !== -1) {
+      if (endPos !== -1 && pos+1!==endPos) {
         tokens.push({ type: TokenType.INLINE_CODE_MARKER, value: '`' });
         const innerTokens = tokenize(input.substring(pos + 1, endPos));
         innerTokens.pop(); // Removes the EOF token.
